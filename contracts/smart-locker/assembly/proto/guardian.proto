@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package guardian;
+
+import "koinos/options.proto";
+
+message guard {
+  optional time_guard time_guard = 1;
+}
+
+message time_guard {
+  uint64 unlock_at = 1 [jstype = JS_STRING];
+}

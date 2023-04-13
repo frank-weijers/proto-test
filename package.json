@@ -1,0 +1,55 @@
+{
+  "name": "smart-locker",
+  "version": "0.6.0",
+  "license": "MIT",
+  "dependencies": {
+    "koilib": "^5.5.3",
+    "koinos-precompiler-as": "^0.4.2",
+    "kondor-js": "^0.4.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0"
+  },
+  "devDependencies": {
+    "@as-covers/core": "^0.4.2",
+    "@as-pect/cli": "^6.2.4",
+    "@koinos/abi-proto-gen": "^1.0.0",
+    "@koinos/as-proto-gen": "^1.0.3",
+    "@koinos/as-gen": "^1.0.0",
+    "@koinos/mock-vm": "^1.0.0",
+    "@koinos/sdk-as": "^1.0.2",
+    "@koinos/sdk-as-cli": "^1.0.0",
+    "@roaminroe/protoc": "^2.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "as-proto": "^1.2.0",
+    "assemblyscript": "^0.19.22",
+    "copyfiles": "^2.4.1",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.6.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.8.4",
+    "yaml": "^2.1.3"
+  },
+  "scripts": {
+    "build:test": "yarn precompile && yarn asbuild:harbinger:release && yarn test",
+    "asbuild:debug": "asc contracts/smart-locker/build/index.ts --config contracts/smart-locker/asconfig.json --use abort= --target debug --use BUILD_FOR_TESTING=0",
+    "asbuild:release": "asc contracts/smart-locker/build/index.ts --config contracts/smart-locker/asconfig.json --use abort= --target release --use BUILD_FOR_TESTING=0",
+    "asbuild:harbinger:debug": "asc contracts/smart-locker/build/index.ts --config contracts/smart-locker/asconfig-harbinger.json --use abort= --target debug --use BUILD_FOR_TESTING=1",
+    "asbuild:harbinger:release": "asc contracts/smart-locker/build/index.ts --config contracts/smart-locker/asconfig-harbinger.json --use abort= --target release --use BUILD_FOR_TESTING=1",
+    "build": "yarn precompile && yarn asbuild:release",
+    "build:harbinger": "yarn precompile && yarn asbuild:harbinger:release",
+    "precompile": "koinos-precompiler-as contracts/smart-locker",
+    "test12": "koinos-sdk-as-cli run-tests",
+    "test": "asp --verbose --summary --config contracts/smart-locker/as-pect.config.js",
+    "test:verbose": "asp --verbose --config contracts/smart-locker/as-pect.config.js",
+    "deploy": "ts-node contracts/smart-locker/scripts/update-contract.ts",
+    "initialDeploy": "ts-node contracts/smart-locker/scripts/initial-deploy.ts",
+    "prerelease": "copyfiles -u 4 contracts/smart-locker/build/release/smart-locker.wasm build && copyfiles -u 4 contracts/smart-locker/build/release/koinstarter-harbinger.wasm build && copyfiles -u 3 contracts/smart-locker/build/koinstarter-abi.json build && copyfiles -u 4 contracts/projects/build/release/projects.wasm build && copyfiles -u 3 contracts/projects/build/projects-abi.json build && node getSha256.js",
+    "lint": "eslint --max-warnings 0 --ext ts \"*/assembly/**/*.ts\"",
+    "postinstall": "patch-package"
+  },
+  "config": {
+    "protocVersion": "21.8"
+  }
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package koiner.smart_locker;
+
+import "koinos/options.proto";
+import "guardian.proto";
+
+//
+//
+//
+
+message release {
+  uint64 nr = 1 [jstype = JS_STRING];
+  string name = 2;
+  bytes token_id = 3 [(koinos.btype) = ADDRESS];
+  uint64 amount = 4 [jstype = JS_STRING];
+  string allocation_type = 5; // fixed, percentage, entries, weight
+  repeated guardian.guard guards = 6;
+}
+
+/*
+   @description Deposit tokenIds into vault
+   @read-only false
+*/
+message add_release_arguments {
+  string name = 1;
+  bytes token_id = 2 [(koinos.btype) = ADDRESS];
+  uint64 amount = 3 [jstype = JS_STRING];
+  string allocation_type = 4; // fixed, percentage, entries, weight
+  repeated guardian.guard guards = 5;
+}
+
+message add_release_result {
+  bool value = 1;
+}
